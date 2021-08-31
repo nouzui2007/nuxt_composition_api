@@ -5,23 +5,21 @@
       >Propsを利用した親から子へのデータ渡しサンプル</v-card-subtitle
     >
     <v-card-text>
-      <VmodelChild
-        @my-event="handleEvent"
-        :title="titleValue"
-        :count="counter"
-      />
+      <VmodelChild @my-event="handleEvent" v-model="target" />
     </v-card-text>
   </v-card>
 </template>
 <script>
-import { defineComponent, ref } from "@vue/composition-api";
+import { defineComponent, reactive, ref } from "@vue/composition-api";
 import VmodelChild from "./VmodelChild";
 
 export default defineComponent({
   components: { VmodelChild },
   setup() {
-    const titleValue = ref("タイトル");
-    const counter = ref(123);
+    const target = reactive({
+      title: "タイトル",
+      count: 123,
+    });
 
     const handleEvent = (...args) => {
       console.log("子コンポーネントのイベント発生");
@@ -29,8 +27,7 @@ export default defineComponent({
     };
 
     return {
-      titleValue,
-      counter,
+      target,
       handleEvent,
     };
   },
